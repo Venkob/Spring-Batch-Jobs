@@ -1,0 +1,50 @@
+#Application
+
+spring:
+  profiles:
+    active:
+    - local
+  main:
+    allow-bean-definition-overriding: true
+
+    
+server:
+  tomcat:
+    access-log-enabled: true
+    access-log-pattern: "%h %l %u %t '%r' %s %b %D"
+    basedir: log/access
+    
+
+
+
+#Spring security
+security:
+  ignored: /**
+
+#Actuator Config for custom endpoints
+management:
+  endpoints:
+    web:
+      base-path: /spring-batch/
+      expose:
+        include: "*"
+      exclude: 'beans,conditions'
+  endpoint:
+    health:
+      show-details: always
+    httptrace:
+      show-details: always
+  info:
+    git:
+      enabled: false
+
+info:
+  app:
+    name: Spring Batch Application
+    description: Spring Batch Application
+    version: 1.0.fi.f33856a
+    buildBranch: Unknown branch    
+    buildDate: 2020-11-04-15:45:24
+    
+dfsShareFolderPath: /mnt/dfs/   
+    

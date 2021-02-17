@@ -1,0 +1,88 @@
+# The following configuration needs to be changed.
+logging:
+  file: D:/log/application.log
+  level:
+    com.gci: DEBUG
+    org.springframework.web: DEBUG
+    org.apache.http: DEBUG
+  logging:
+    level:
+      ROOT: DEBUG
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"
+    file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+
+server:
+  tomcat:
+    access-log-enabled: true
+    access-log-pattern: "%h %l %u %t '%r' %s %b %D"
+    basedir: /opt/gci_service/log/access
+
+    
+# MySQL & Database connection properties
+spring:
+  batch:
+    initialize-schema: always 
+  datasource:
+    driverClassName: 'com.mysql.cj.jdbc.Driver'
+    url: 'jdbc:mysql://localhost:3306/batchData'
+    username: 'root'
+    password: 'root'
+    testWhileIdle: true
+    validationQuery: 'SELECT 1'
+    tomcat:
+      max-wait: 20000
+      max-active: 50
+      max-idle: 20
+      min-idle: 15
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+        generate-ddl: true
+        format_sql: true
+        id:
+          new_generator_mappings: true
+    hibernate:
+      ddl-auto : update
+      naming:
+        implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyLegacyJpaImpl
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    
+       
+  jackson:
+    default-property-inclusion: NON_NULL
+
+#Encryotion uses encKey from enc.properties
+jasypt:
+  encryptor:
+    password: ${encKey}
+
+
+#Spring security
+security:
+  ignored: /**
+
+#Actuator Config for custom endpoints
+management:
+  endpoints:
+    web:
+      base-path: /
+      expose: 
+        include: "*"
+      exclude: 'beans,conditions'
+  endpoint:
+    health:
+      show-details: always
+    httptrace:
+      show-details: always
+  info:
+    git:
+      enabled: false
+      
+info:
+  app:
+    name: Spring Batch Application
+    description: Spring Batch LD Utility
+    version: 1.0.fs.61f8762
+    buildDate: 2020-08-03-21:23:04
